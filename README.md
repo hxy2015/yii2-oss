@@ -45,7 +45,7 @@ Usage
 Upload File
 
 ```php
-$oss = Yii::get('oss');
+$oss = \Yii::$app->get('oss');
 $oss->putObjectByContent('some_dir/some_file_name', 'hehe');
 
 $filename = 'test.txt';
@@ -56,7 +56,7 @@ $oss->putObjectByFile('some_dir/some_file_name', $filename);
 Download File
 
 ```php
-$oss = Yii::get('oss');
+$oss = \Yii::$app->get('oss');
 $oss->getObjectContent('some_dir/some_file_name');
 
 $filename = 'test.txt';
@@ -66,7 +66,7 @@ $oss->getObjectFile('some_dir/some_file_name', $filename);
 Test File Exist
 
 ```php
-$oss = Yii::get('oss');
+$oss = \Yii::$app->get('oss');
 $oss->isObjectExist('some_dir/some_file_name');
 ```
 
