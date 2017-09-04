@@ -22,11 +22,10 @@ class ConnectionTest extends TestCase
     public function testPutObjectByFile()
     {
         $oss = $this->getConnection();
-        $filename = tmpfile();
-        file_put_contents($filename, 'hehe');
-        $oss->putObjectByFile($this->testObject, 'hehe', $filename);
+        $filename = __DIR__ . '/data/haha.txt';
+        $oss->putObjectByFile($this->testObject, $filename);
         $this->assertTrue($oss->isObjectExist($this->testObject));
         $content = $oss->getObjectContent($this->testObject);
-        $this->assertSame('hehe', $content);
+        $this->assertSame('haha', $content);
     }
 }

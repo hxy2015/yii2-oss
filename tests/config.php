@@ -5,6 +5,8 @@ $config = [
         'bucket' => 'test',
         'accessId' => 'abcd',
         'accessKey' => 'abcd',
+        'connectionTimeout' => 1,
+        'dataTimeout' => 3,
     ]
 ];
 

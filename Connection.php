@@ -171,6 +171,19 @@ class Connection extends Component
      */
     public $bucket;
 
+    /**
+     * @var float timeout to use for connecting to an elasticsearch node.
+     * This value will be used to configure the curl `CURLOPT_CONNECTTIMEOUT` option.
+     * If not set, no explicit timeout will be set for curl.
+     */
+    public $connectionTimeout = null;
+    /**
+     * @var float timeout to use when reading the response from an elasticsearch node.
+     * This value will be used to configure the curl `CURLOPT_TIMEOUT` option.
+     * If not set, no explicit timeout will be set for curl.
+     */
+    public $dataTimeout = null;
+
 
     public function init()
     {
@@ -297,7 +310,11 @@ class Connection extends Component
         $msg .= "--REQUEST URL:----------------------------------------------\n" . $this->request_url . "\n";
 
         //创建请求
-        $request = new OssRequest($this->request_url);
+        $request = new OssRequest([
+            'requestUrl' => $this->request_url,
+            'connectionTimeout' => $this->connectionTimeout,
+            'dataTimeout' => $this->dataTimeout,
+        ]);
 
         // Streaming uploads
         if (isset($options[self::OSS_FILE_UPLOAD])) {
@@ -323,7 +340,7 @@ class Connection extends Component
             } else {
                 $request->set_read_file($options[self::OSS_FILE_UPLOAD]);
 
-                $length = $request->read_stream_size;
+                $length = $request->readStreamSize;
 
                 if (isset($options[self::OSS_CONTENT_LENGTH])) {
                     $length = $options[self::OSS_CONTENT_LENGTH];
@@ -331,7 +348,7 @@ class Connection extends Component
                     $length -= (integer)$options[self::OSS_SEEK_TO];
                 }
 
-                $request->set_read_stream_size($length);
+                $request->set_read_streamSize($length);
 
                 if (isset($headers[self::OSS_CONTENT_TYPE]) && ($headers[self::OSS_CONTENT_TYPE] === 'application/x-www-form-urlencoded')) {
                     $extension = explode('.', $options[self::OSS_FILE_UPLOAD]);
@@ -408,10 +425,10 @@ class Connection extends Component
         }
 
         if ($this->debug_mode) {
-            $request->debug_mode = $this->debug_mode;
+            $request->debugMode = $this->debug_mode;
         }
 
-        $msg .= "REQUEST HEADERS:----------------------------------------------\n" . serialize($request->request_headers) . "\n";
+        $msg .= "REQUEST HEADERS:----------------------------------------------\n" . serialize($request->requestHeaders) . "\n";
 
         $request->send_request();
 
@@ -419,7 +436,7 @@ class Connection extends Component
         $response_header['x-qc-request-url'] = $this->request_url;
         $response_header['x-qc-redirects'] = $this->redirects;
         $response_header['x-qc-stringtosign'] = $string_to_sign;
-        $response_header['x-qc-requestheaders'] = $request->request_headers;
+        $response_header['x-qc-requestheaders'] = $request->requestHeaders;
 
         $msg .= "RESPONSE HEADERS:----------------------------------------------\n" . serialize($response_header) . "\n";
 
