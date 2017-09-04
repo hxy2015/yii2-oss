@@ -5,7 +5,7 @@ use Yii;
 use yii\base\Component;
 
 /**
- * @author Huangxiaoyuan <huangxy@jiedaibao.com>
+ * @author huangxy <huangxy10@qq.com>
  */
 class Connection extends Component
 {

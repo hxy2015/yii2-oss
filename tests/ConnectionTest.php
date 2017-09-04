@@ -3,7 +3,7 @@
 namespace yiiunit\oss;
 
 /**
- * @author Huangxiaoyuan <huangxy@jiedaibao.com>
+ * @author huangxy <huangxy10@qq.com>
  */
 class ConnectionTest extends TestCase
 {
