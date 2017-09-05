@@ -7,7 +7,7 @@ namespace yiiunit\oss;
  */
 class ConnectionTest extends TestCase
 {
-    private $testObject = 'some_dir/some_uuid';
+    private $testObject = 'oss-sdk-test/oss-object-name.txt';
     
     public function testPutObjectByContent()
     {
@@ -22,10 +22,9 @@ class ConnectionTest extends TestCase
     public function testPutObjectByFile()
     {
         $oss = $this->getConnection();
-        $filename = __DIR__ . '/data/haha.txt';
-        $oss->putObjectByFile($this->testObject, $filename);
+        $oss->putObjectByFile($this->testObject, __FILE__);
         $this->assertTrue($oss->isObjectExist($this->testObject));
         $content = $oss->getObjectContent($this->testObject);
-        $this->assertSame('haha', $content);
+        $this->assertSame(file_get_contents(__FILE__), $content);
     }
 }
