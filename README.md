@@ -49,7 +49,7 @@ $oss = \Yii::$app->get('oss');
 $oss->putObjectByContent('some_dir/some_file_name', 'hehe');
 
 $filename = 'test.txt';
-file_put_content($filename, 'hehe');
+file_put_contents($filename, 'hehe');
 $oss->putObjectByFile('some_dir/some_file_name', $filename);
 ```
 
